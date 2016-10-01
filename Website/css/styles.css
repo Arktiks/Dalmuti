@@ -1,0 +1,78 @@
+/* ---------------------------------------------------------
+   HTML5 Bones
+   This stylesheet contains print styling and a section for 
+   you to simply add your own. This is a basic template 
+   after all.
+   ---------------------------------------------------------*/
+
+    /* Default link styling */
+    a:link { color:#0271fb; }
+    a:visited { color:#bd02fb; }
+    a:hover, a:focus { color:#000; }
+    a:active { color:#fb0e02; }
+    
+/* ---------------------------------------------------------
+   Author's styles
+   ---------------------------------------------------------*/
+
+    #datagrid table { border-collapse: collapse; text-align: left; width: 100%; }
+    #datagrid { font: normal 12px/150% Courier New, Courier, monospace; background: #fff; overflow: hidden; border: 1px solid #991821; }
+    #datagrid table td,
+    #datagrid table th { padding: 3px 5px; }
+    #datagrid table thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #991821), color-stop(1, #80141C) );background:-moz-linear-gradient( center top, #991821 5%, #80141C 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#991821', endColorstr='#80141C');background-color:#991821; color:#FFFFFF; font-size: 15px; font-weight: bold; }
+    #datagrid table thead th:first-child { border: none; }
+    #datagrid table tbody td { color: #80141C; border-left: 1px solid #F7CDCD; font-size: 12px; border-bottom: 1px solid #E1EEF4; font-weight: normal; }
+    #datagrid table tbody 
+        #alt td { background: #F7CDCD; color: #80141C; }
+    #datagrid table tbody td:first-child { border-left: none; }
+    #datagrid table tbody tr:last-child td { border-bottom: none; }
+    #datagrid a:link { color:#ffffff; }
+    
+    #playercolors { margin: 20px; }
+    #playercolors span { font-size: 20px; padding: 10px; color: black; }
+    
+    #title { font-size: 30px; text-align: left; font-weight: bold; margin: 20px;}
+    
+    .achievements { margin: 20px; }
+    .achievements thead { font-size: 30px; text-align: left; font-weight: bold; }
+    .achievements img { border: 1px solid black; }
+    .achievements table tbody tr td { padding: 5px; font-size: 20px; }
+    .achievements span { font-size: 20px; padding: 2px; color: black; }
+    
+
+    
+/* ---------------------------------------------------------
+   Print styles
+   ---------------------------------------------------------*/
+@media print {
+    * {
+        color:#000 !important;
+        box-shadow:none !important;
+        text-shadow:none !important;
+        background:transparent !important;
+    }
+    html { background-color:#fff; }
+    /* Hide navigation */
+    nav { display:none; }
+
+    /* Show link destinations in brackets after the link text */
+    a[href]:after { content: " (" attr(href) ") "; }
+    a[href] {
+        font-weight:bold;
+        text-decoration:underline;
+        color:#06c;
+        border:none;
+    }
+    /* Don't show link destinations for JavaScript or internal links */ 
+    a[href^="javascript:"]:after, a[href^="#"]:after { content:""; }
+    
+    /* Show abbr title value in brackets after the text */
+    abbr[title]:after { content: " (" attr(title) ")"; }
+
+    figure { 
+        margin-bottom:1em; 
+        overflow:hidden;
+    }
+
+    figure img { border:1px solid #000; }
+}

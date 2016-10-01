@@ -1,0 +1,11 @@
+#pragma once
+
+enum ROLES
+{
+    NO_ROLE = 0,
+    GREATER_DALMUTI,
+    LESSER_DALMUTI,
+    MERCHANT,
+    LESSER_PEON,
+    GREATER_PEON
+};

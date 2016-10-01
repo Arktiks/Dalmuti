@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>The Great Dalmuti</title>
+	<link href="css/normalize.css" rel="stylesheet" media="all">
+    <link href="css/styles.css" rel="stylesheet" media="all">
+	<link href="css/morris.css" rel="stylesheet">
+	
+	<script src="js/jquery/jquery-3.1.1.js"></script>
+	<script src="js/dynatable/jquery.dynatable.js"></script>
+	<script src="js/morris/raphael.min.js"></script>
+	<script src="js/morris/morris.min.js"></script>
+	<script src="js/table-manager.js"></script>
+</head>
+<body>
+
+	<section id="datagrid">
+		<table id="datatable">
+			<thead>
+				<th>Name</th>
+				<th>Illegal_Moves</th>
+				<th>Average_Turntime</th>
+				<th>Greater_Dalmuti</th>
+				<th>Lesser_Dalmuti</th>
+				<th>Merchant</th>
+				<th>Lesser_Peon</th>
+				<th>Greater_Peon</th>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</section>
+
+	<section id="playercolors"></section>
+	
+	<div id="linechart"></div>
+	
+	<section class="achievements">
+	<table>
+		<thead>
+			<th id="title" colspan="4">Achievements</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td><img src="pics/king_achievement.jpg" alt="King Achievement"></td>
+				<td><span id="king_a">Name</span> held supreme <span id="king_count">Number</span> times as the Greater Dalmuti.</td>
+                <td><img src="pics/fastest_achievement.jpg" alt="Fastest Achievement"></td>
+                <td><span id="fast_a">Name</span> had the fastest decisions with average of <span id="fast_count">Number</span> milliseconds.</td>
+			</tr>
+			<tr>
+				<td><img src="pics/merchant_achievement.jpg" alt="Merchant Achievement"></td>
+				<td><span id="merchant_a">Name</span> spent most time rubbing his hands <span id="merchant_count">Number</span> times as the Merchant.</td>
+                <td><img src="pics/slowest_achievement.jpg" alt="Slowest Achievement"></td>
+                <td><span id="slow_a">Name</span> took forever to decide with average of <span id="slow_count">Number</span> milliseconds.</td>
+			</tr>
+			<tr>
+				<td><img src="pics/peon_achievement.jpg" alt="Peon Achievement"></td>
+				<td><span id="peon_a">Name</span> served faithfully <span id="peon_count">Number</span> times as the Greater Peon.</td>
+                <td><img src="pics/cheating_achievement.jpg" alt="Cheating Achievement"></td>
+                <td id="cheat_text"><span id="cheat_a">Name</span> was caught cheating <span id="cheat_count">Number</span> times.</td>
+			</tr>
+		</tbody>
+	</table>
+	</section>
+	
+    <p id="title">Illegal Moves</p>
+    
+    <section id="datagrid">
+    <table id="illegaltable">
+        <thead>
+            <th>Name</th>
+            <th>Player Move</th>
+            <th>Latest Move on Table</th>
+            <th>Hand Cards</th>
+        </thead>
+    </table>
+    </section>
+    
+</body>
+</html>
