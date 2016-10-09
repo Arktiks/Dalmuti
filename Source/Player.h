@@ -23,6 +23,7 @@ public:
     int illegalMoves;
 
     Player() {};
+    Player(std::string name) { SetName(name); }
     virtual ~Player() {};
 
 protected:

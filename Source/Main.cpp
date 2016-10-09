@@ -1,6 +1,7 @@
+#include "AI\Monkey.h"
+
 #include "GameManager.h"
 #include "Debug\Memory.h"
-#include "AI\Monkey.h"
 
 #include <CmdParser\cmdparser.hpp>
 #include <Json\json.hpp>
@@ -25,9 +26,11 @@ int main(int argc, char** argv)
     srand(unsigned(std::time(0)));
 
     GameManager manager;
-    manager.AddPlayer(NEW Monkey("Matti"));
-    manager.AddPlayer(NEW Monkey("Vesa"));
-    manager.AddPlayer(NEW Monkey("Liisa"));
+    manager.AddPlayer(NEW Monkey("Loiri"));
+    manager.AddPlayer(NEW Monkey("Mielikki"));
+    manager.AddPlayer(NEW Monkey("Koiro"));
+    manager.AddPlayer(NEW Monkey("Hessu Hopo"));
+    manager.AddPlayer(NEW Monkey("Aurinko"));
 
     for(int i = 0; i < 20; i++)
     {
@@ -92,8 +95,11 @@ int main(int argc, char** argv)
     file_id.close();
 
     manager.DeInit();
+
+#ifdef _DEBUG
     Memory::Print();
-    //std::cin.get();
+#endif
+
     return 0;
 }
 

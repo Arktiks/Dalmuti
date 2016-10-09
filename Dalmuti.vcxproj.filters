@@ -12,7 +12,7 @@
       <UniqueIdentifier>{1a2cb5a5-0f92-49d6-a66e-1daa7b32df4c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\AI">
-      <UniqueIdentifier>{80e03062-008c-434d-99a0-fa384fd57a76}</UniqueIdentifier>
+      <UniqueIdentifier>{54a3b872-edaf-4a6a-bfea-aeefb898403e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -28,8 +28,8 @@
     <ClCompile Include="Source\Debug\Memory.cpp">
       <Filter>Source Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="Source\AI\Player.cpp">
-      <Filter>Source Files\AI</Filter>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\AI\Monkey.cpp">
       <Filter>Source Files\AI</Filter>
@@ -57,8 +57,8 @@
     <ClInclude Include="Source\Data\GameState.h">
       <Filter>Source Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Source\AI\Player.h">
-      <Filter>Source Files\AI</Filter>
+    <ClInclude Include="Source\Player.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\AI\Monkey.h">
       <Filter>Source Files\AI</Filter>

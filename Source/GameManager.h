@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "AI\Player.h"
+#include "Player.h"
 #include <Json\json.hpp>
 
 class GameManager
