@@ -1,5 +1,7 @@
 # Created by https://www.gitignore.io/api/windows,linux,c++,visualstudio,visualstudiocode
 
+Log.json
+
 ### Windows ###
 # Windows image file caches
 Thumbs.db

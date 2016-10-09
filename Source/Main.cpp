@@ -1,7 +1,7 @@
 #include "AI\Monkey.h"
 
 #include "GameManager.h"
-#include "Debug\Memory.h"
+#include "Logging\Memory.h"
 
 #include <CmdParser\cmdparser.hpp>
 #include <Json\json.hpp>

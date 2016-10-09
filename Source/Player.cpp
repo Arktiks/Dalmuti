@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "Debug\Log.h"
+#include "Logging\Log.h"
 #include "Data\Cards.h"
 #include "Data\Roles.h"
 #include <algorithm>

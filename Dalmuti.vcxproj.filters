@@ -8,11 +8,11 @@
     <Filter Include="Source Files\Data">
       <UniqueIdentifier>{06c03d3a-10fe-452b-9ea8-4fde7ec37ad3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Debug">
-      <UniqueIdentifier>{1a2cb5a5-0f92-49d6-a66e-1daa7b32df4c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\AI">
       <UniqueIdentifier>{54a3b872-edaf-4a6a-bfea-aeefb898403e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logging">
+      <UniqueIdentifier>{1a2cb5a5-0f92-49d6-a66e-1daa7b32df4c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -22,17 +22,17 @@
     <ClCompile Include="Source\GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Debug\Log.cpp">
-      <Filter>Source Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Debug\Memory.cpp">
-      <Filter>Source Files\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\AI\Monkey.cpp">
       <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Logging\Log.cpp">
+      <Filter>Source Files\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Logging\Memory.cpp">
+      <Filter>Source Files\Logging</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,12 +48,6 @@
     <ClInclude Include="Source\GameManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Debug\Log.h">
-      <Filter>Source Files\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Debug\Memory.h">
-      <Filter>Source Files\Debug</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Data\GameState.h">
       <Filter>Source Files\Data</Filter>
     </ClInclude>
@@ -62,6 +56,12 @@
     </ClInclude>
     <ClInclude Include="Source\AI\Monkey.h">
       <Filter>Source Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Logging\Log.h">
+      <Filter>Source Files\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Logging\Memory.h">
+      <Filter>Source Files\Logging</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
