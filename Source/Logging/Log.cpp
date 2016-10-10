@@ -27,8 +27,8 @@ void Log::File(const char* file, int line)
 string Log::GetFile(const char* file)
 {
 	string path(file); // Contains full file-path now.
-	size_t last = path.find_last_of("/\\") + 1; // Find last part of path.
-	size_t amount = path.size() - last; // How long filename is.
+	int last = path.find_last_of("/\\") + 1; // Find last part of path.
+	int amount = path.size() - last; // How long filename is.
 
 	string filename;
 	filename.append(path, last, amount); // Copy appropriate part from path.

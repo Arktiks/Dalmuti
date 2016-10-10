@@ -1,8 +1,8 @@
 #include "GameManager.h"
-#include "Data\Cards.h"
-#include "Data\Roles.h"
-#include "Data\GameState.h"
-#include "Logging\Log.h"
+#include "Data/Cards.h"
+#include "Data/Roles.h"
+#include "Data/GameState.h"
+#include "Logging/Log.h"
 
 #include <algorithm>
 #include <chrono>
@@ -142,7 +142,7 @@ std::vector<int> GameManager::CreateDeck()
 {
     std::vector<int> deck = { CARDS::JESTER, CARDS::JESTER };
 
-    for(size_t i = CARDS::PEASANT; i != 0; i--)
+    for(int i = CARDS::PEASANT; i != 0; i--)
     {
         for(int j = 0; j != i; j++)
             deck.push_back(i);
@@ -173,7 +173,7 @@ void GameManager::DealCards()
 
     while(!deck.empty())
     {
-        for(size_t i = 0; i < players.size(); i++)
+        for(int i = 0; i < players.size(); i++)
         {
             players[i]->AddCard(deck.back());
             deck.pop_back();
@@ -199,7 +199,7 @@ void GameManager::PrepareRoles()
 
     int merchants = players.size() - roles.size();
 
-    for(size_t i = 0; i < merchants; i++)
+    for(int i = 0; i < merchants; i++)
         roles.push_back(ROLES::MERCHANT);
 
     std::sort(roles.begin(), roles.end());
@@ -229,10 +229,10 @@ void GameManager::NextPlayer()
 
 void GameManager::DiscardTable()
 {
-    for(size_t i = 0; i < newestHand.amount; i++)
+    for(int i = 0; i < newestHand.amount; i++)
         discardedCards.push_back(newestHand.value);
 
-    for(size_t i = 0; i < newestHand.jesters; i++)
+    for(int i = 0; i < newestHand.jesters; i++)
         discardedCards.push_back(CARDS::JESTER);
 
     newestHand = Hand();

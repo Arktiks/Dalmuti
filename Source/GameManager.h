@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "Player.h"
-#include <Json\json.hpp>
+#include "../Libs/Json/json.hpp"
 
 class GameManager
 {

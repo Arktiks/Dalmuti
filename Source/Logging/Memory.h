@@ -3,6 +3,8 @@
 #define MEMORY_H
 
 #include <vector>
+#include <stdlib.h>
+#include <string>
 
 // Prevent linker errors.
 #pragma comment(linker, "/nodefaultlib:libc.lib")
@@ -34,8 +36,8 @@ private:
 // Functions are defined in Memory.cpp to avoid compilation errors.
 extern void* operator new(size_t size, const char* file, int line);
 extern void* operator new[](size_t size, const char* file, int line);
-extern void operator delete(void* pointer);
-extern void operator delete[](void* pointer);
+extern void  operator delete(void* pointer) noexcept;
+extern void  operator delete[](void* pointer) noexcept;
 
 // Macro calling overloaded new operator.
 #define NEW new(__FILE__, __LINE__)

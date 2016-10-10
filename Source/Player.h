@@ -1,10 +1,10 @@
 #pragma once
-#include "Data\Hand.h"
-#include "Data\GameState.h"
-#include "Data\Roles.h"
+#include "Data/Hand.h"
+#include "Data/GameState.h"
+#include "Data/Roles.h"
+#include "../Libs/Json/json.hpp"
 #include <vector>
 #include <string>
-#include <Json\json.hpp>
 
 class Player
 {

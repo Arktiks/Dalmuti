@@ -1,7 +1,7 @@
 #include "Player.h"
-#include "Logging\Log.h"
-#include "Data\Cards.h"
-#include "Data\Roles.h"
+#include "Logging/Log.h"
+#include "Data/Cards.h"
+#include "Data/Roles.h"
 #include <algorithm>
 #include <cassert>
 
@@ -125,7 +125,7 @@ void Player::SetName(std::string name)
 void Player::PrintCards() const
 {
     printf("(%s)(%i): ", name.c_str(), id);
-    for(size_t i = 0; i < handCards.size(); i++)
+    for(int i = 0; i < handCards.size(); i++)
     {
         printf("%i ", handCards[i]);
     }
@@ -151,9 +151,9 @@ void Player::RemoveCard(int value)
 
 void Player::RemoveCard(Hand hand)
 {
-    for(size_t i = 0; i < hand.amount; i++)
+    for(int i = 0; i < hand.amount; i++)
         RemoveCard(hand.value);
 
-    for(size_t i = 0; i < hand.jesters; i++)
+    for(int i = 0; i < hand.jesters; i++)
         RemoveCard(CARDS::JESTER);
 }

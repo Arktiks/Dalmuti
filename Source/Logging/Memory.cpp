@@ -50,8 +50,8 @@ bool Memory::IsClean()
 
 void* operator new(size_t size, const char* file, int line)
 {
-	void* pointer = new char[size];	                   // Make void pointer based on size.
-	string filename(file);                             // Convert filename to string.
+	void* pointer = new char[size]; // Make void pointer based on size.
+	string filename(file);          // Convert filename to string.
 
 	MemoryTrack track;
 	track.pointer = pointer;
@@ -59,22 +59,22 @@ void* operator new(size_t size, const char* file, int line)
 	track.filename = filename;
 	track.line = line;
 
-	Memory::AddTrack(track);                           // Make note of memory track.
-	return pointer;                                    // Return pointer as per normal.
+	Memory::AddTrack(track); // Make note of memory track.
+	return pointer;          // Return pointer as per normal.
 }
 
-void *operator new[](size_t size, const char* file, int line)
+void* operator new[](size_t size, const char* file, int line)
 {
 	return operator new(size, file, line); // Use above function.
 }
 
-void operator delete(void* pointer)
+void operator delete(void* pointer) noexcept
 {
 	Memory::DeleteTrack(pointer); // Remove track from manager.
 	free(pointer); // Free memory as per normal.
 }
 
-void operator delete[](void* pointer)
+void operator delete[](void* pointer) noexcept
 {
 	operator delete(pointer);
 }

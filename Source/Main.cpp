@@ -1,10 +1,10 @@
-#include "AI\Monkey.h"
+#include "AI/Monkey.h"
 
 #include "GameManager.h"
-#include "Logging\Memory.h"
+#include "Logging/Memory.h"
 
-#include <CmdParser\cmdparser.hpp>
-#include <Json\json.hpp>
+#include "../Libs/CmdParser/cmdparser.hpp"
+#include "../Libs/Json/json.hpp"
 using json = nlohmann::json;
 
 #include <iostream>
@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     manager.AddPlayer(NEW Monkey("Hessu Hopo"));
     manager.AddPlayer(NEW Monkey("Aurinko"));
 
-    for(int i = 0; i < 20; i++)
+    for(int i = 0; i < 50; i++)
     {
         manager.Prepare();
         //std::cin.get();
