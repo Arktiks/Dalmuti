@@ -14,4 +14,4 @@ else
 endif
 
 Dalmuti: $(SOURCE)
-	$(CC) $(SOURCE) $(AI_SOURCE) $(CFLAGS) -o $@
+	$(CC) $(SOURCE) $(AI_SOURCE) $(CFLAGS) -o $@.out

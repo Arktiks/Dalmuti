@@ -26,7 +26,7 @@ int main(int argc, char** argv)
     srand(unsigned(std::time(0)));
     GameManager manager = SetGame();
 
-    for(int i = 0; i < 50; i++)
+    for(int i = 0; i < 10; i++)
     {
         manager.Prepare();
         //std::cin.get();
