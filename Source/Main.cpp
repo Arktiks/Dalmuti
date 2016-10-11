@@ -1,4 +1,4 @@
-#include "AI/Monkey.h"
+#include "AI/Players.h"
 
 #include "GameManager.h"
 #include "Logging/Memory.h"
@@ -24,13 +24,7 @@ int main(int argc, char** argv)
     parser.run_and_exit_if_error();
 
     srand(unsigned(std::time(0)));
-
-    GameManager manager;
-    manager.AddPlayer(NEW Monkey("Loiri"));
-    manager.AddPlayer(NEW Monkey("Mielikki"));
-    manager.AddPlayer(NEW Monkey("Koiro"));
-    manager.AddPlayer(NEW Monkey("Hessu Hopo"));
-    manager.AddPlayer(NEW Monkey("Aurinko"));
+    GameManager manager = SetGame();
 
     for(int i = 0; i < 50; i++)
     {

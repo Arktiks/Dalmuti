@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}/Dalmuti.out",
-            "preLaunchTask": "debug-build",
+            "preLaunchTask": "release-build",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",

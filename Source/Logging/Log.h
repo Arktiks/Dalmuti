@@ -23,5 +23,5 @@ private:
 
 
 #ifdef NDEBUG
-#define DEBUG_INFO void(0)
+#define DEBUG_INFO
 #endif
