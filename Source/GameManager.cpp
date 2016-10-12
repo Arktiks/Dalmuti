@@ -56,7 +56,7 @@ void GameManager::GameLoop()
     if(ConfirmHand(move, player))
     {
         DiscardTable();
-        newestHand = move;
+        table = move;
         player->RemoveCard(move);
         passes = 0;
         CheckFinished(player);
@@ -64,7 +64,7 @@ void GameManager::GameLoop()
     else
     {
         //DEBUG_INFO(("(%s)(%i) passess because of illegal move.", player->name.c_str(), player->id));
-        player->errors.push_back(FormatError(move, newestHand, player));
+        player->errors.push_back(FormatError(move, table, player));
         player->illegalMoves++;
         passes++;
     }
@@ -99,8 +99,8 @@ void GameManager::Prepare()
 
     gameOver = false;
     passes = 0;
-    newestHand = Hand();
-    discardedCards.clear();
+    table = Hand();
+    discard.clear();
 
     for(auto i : players)
         i->Prepare();
@@ -160,8 +160,8 @@ std::vector<int> GameManager::CreateDeck()
 GameState GameManager::GetState() const
 {
     GameState state;
-    state.newestHand = newestHand;
-    state.discardedCards = discardedCards;
+    state.table = table;
+    state.discard = discard;
     state.players = players;
     state.passes = passes;
     return state;
@@ -229,13 +229,13 @@ void GameManager::NextPlayer()
 
 void GameManager::DiscardTable()
 {
-    for(int i = 0; i < newestHand.amount; i++)
-        discardedCards.push_back(newestHand.value);
+    for(int i = 0; i < table.amount; i++)
+        discard.push_back(table.value);
 
-    for(int i = 0; i < newestHand.jesters; i++)
-        discardedCards.push_back(CARDS::JESTER);
+    for(int i = 0; i < table.jesters; i++)
+        discard.push_back(CARDS::JESTER);
 
-    newestHand = Hand();
+    table = Hand();
 }
 
 void GameManager::PlayerFinished(Player* player)
@@ -325,8 +325,8 @@ bool GameManager::ConfirmHand(Hand move, Player* player)
             DEBUG_INFO(("(%s)(%i) CARD(%i) PLAYED(%i+%i)", name.c_str(), id, move.value, move.amount, move.jesters));
             return true;
         }
-        else if(move.value < newestHand.value && // Card value is smaller than current smallest on table.
-            (move.amount + move.jesters) >= (newestHand.amount + newestHand.jesters)) // And amount of cards is same or greater.
+        else if(move.value < table.value && // Card value is smaller than current smallest on table.
+            (move.amount + move.jesters) >= (table.amount + table.jesters)) // And amount of cards is same or greater.
         {
             DEBUG_INFO(("(%s)(%i) CARD(%i) PLAYED(%i+%i)", name.c_str(), id, move.value, move.amount, move.jesters));
             return true;
@@ -348,7 +348,7 @@ bool GameManager::ConfirmHand(Hand move, Player* player)
 
 bool GameManager::IsCleanTable() const
 {
-    if(newestHand.value == CARDS::PASS)
+    if(table.value == CARDS::PASS)
         return true;
     return false;
 }

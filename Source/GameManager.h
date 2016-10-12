@@ -43,10 +43,10 @@ private:
 
     std::vector<Player*> players;
     std::vector<Player*> finished;
-    std::vector<int> discardedCards;
+    std::vector<int> discard;
     std::vector<int> roles;
 
-    Hand newestHand;
+    Hand table;
     bool firstRound;
     bool gameOver;
     int passes;

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AI\Base.cpp" />
     <ClCompile Include="Source\AI\Monkey.cpp" />
     <ClCompile Include="Source\GameManager.cpp" />
     <ClCompile Include="Source\Logging\Log.cpp" />
@@ -27,7 +28,9 @@
     <ClCompile Include="Source\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AI\Base.h" />
     <ClInclude Include="Source\AI\Monkey.h" />
+    <ClInclude Include="Source\AI\Players.h" />
     <ClInclude Include="Source\Data\Cards.h" />
     <ClInclude Include="Source\Data\GameState.h" />
     <ClInclude Include="Source\Data\Hand.h" />

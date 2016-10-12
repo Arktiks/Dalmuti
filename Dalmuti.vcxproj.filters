@@ -34,6 +34,9 @@
     <ClCompile Include="Source\Logging\Memory.cpp">
       <Filter>Source Files\Logging</Filter>
     </ClCompile>
+    <ClCompile Include="Source\AI\Base.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Data\Hand.h">
@@ -62,6 +65,12 @@
     </ClInclude>
     <ClInclude Include="Source\Logging\Memory.h">
       <Filter>Source Files\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AI\Base.h">
+      <Filter>Source Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AI\Players.h">
+      <Filter>Source Files\AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

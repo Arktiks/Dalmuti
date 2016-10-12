@@ -6,8 +6,8 @@ class Player;
 
 struct GameState
 {
-    Hand newestHand;
-    std::vector<int> discardedCards;
+    Hand table;
+    std::vector<int> discard;
     std::vector<Player*> players;
     int passes;
 };

@@ -21,7 +21,7 @@ void Monkey::Prepare()
 
 Hand Monkey::AskMove(GameState state)
 {
-    Hand table = state.newestHand;
+    Hand table = state.table;
     Hand myHand;
 
     if(table.value == CARDS::PASS)
