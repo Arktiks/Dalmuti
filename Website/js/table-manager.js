@@ -1,9 +1,9 @@
 // Line Chart Colors
 var linecolors = [ "#727272", "#f1595f", "#79c36a", "#599ad3", "#f9a65a", "#9e66ab", "#cd7058", "#d77fb3" ];
 
-$(document).ready(function()
+/*$(document).ready(function()
 {
-});
+});*/
 
 $.dynatableSetup({
     features:
@@ -18,8 +18,10 @@ $.dynatableSetup({
 
 $.getJSON("Log.json", function(data)
 {
-    console.log(data);
+    //console.log(data);
     
+    document.getElementById("date").innerHTML = data.date;
+
     $('#datatable').dynatable({
         dataset:
         {
