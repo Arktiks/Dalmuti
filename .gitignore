@@ -1,8 +1,14 @@
-# Created by https://www.gitignore.io/api/windows,linux,c++,visualstudio,visualstudiocode
+# Created by https://www.gitignore.io
 
 CLONE_REPO
+MOVE_LOG_TO_SERVER
+GET_AI
+PLAY_DALMUTI
 Log.json
 *.out
+*.goutputstream*
+.vscode/
+Bat/
 
 ### Windows ###
 # Windows image file caches
