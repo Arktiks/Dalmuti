@@ -4,6 +4,7 @@ CLONE_REPO
 MOVE_LOG_TO_SERVER
 GET_AI
 PLAY_DALMUTI
+Dalmuti-All
 Log.json
 *.out
 *.goutputstream*

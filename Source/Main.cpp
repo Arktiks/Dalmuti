@@ -83,6 +83,15 @@ int main(int argc, char** argv)
     root["ykeys"] = ykeys;
     root["labels"] = labels;
 
+    time_t now = time(0);
+    char* dt = ctime(&now);
+    tm* gmtm = gmtime(&now);
+    gmtm->tm_hour += 3;
+    dt = asctime(gmtm);
+    std::string date(dt);
+    date.pop_back();
+    root["date"] = date;
+
     std::ofstream file_id;
     file_id.open("Log.json");
     file_id << std::setw(4) << root;
