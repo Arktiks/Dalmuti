@@ -1,67 +1,104 @@
-// Line Chart Colors
 var linecolors = [ "#727272", "#f1595f", "#79c36a", "#599ad3", "#f9a65a", "#9e66ab", "#cd7058", "#d77fb3" ];
+var initialised = false;
+var dynatable = 
 
-/*$(document).ready(function()
+$(document).ready(function()
 {
-});*/
-
-$.dynatableSetup({
-    features:
-    {
-        search: false,
-        recordCount: false,
-        perPageSelect: false,
-        pushState: false,
-        paginate: false
-    }
+    init();
 });
 
-$.getJSON("Log.json", function(data)
+function init()
 {
-    //console.log(data);
-    
-    document.getElementById("date").innerHTML = data.date;
-
-    $('#datatable').dynatable({
-        dataset:
-        {
-            records: data.players
+    $.dynatableSetup({
+        features:{
+            search: false,
+            recordCount: false,
+            perPageSelect: false,
+            pushState: false,
+            paginate: false
         }
     });
     
-    createPlayerSection(data);
-    
-    Morris.Line({
-        element: "linechart",
-        data: data.rounds,
-        xkey: "r",
-        ykeys: data.ykeys,
-        labels: data.labels,
-        ymax: 1,
-        ymin: 5,
-        smooth: false,
-        hideHover: true,
-        parseTime: false,
-        axes: true,
-        resize: true,
-        yLabelFormat: formatRole,
-        lineColors: linecolors
+    $.getJSON("COUNT.json", function(data){
+        var logs = data.count;
+        console.log("There are " + logs + " logs.");
+        document.getElementById("game_count").innerHTML = logs;
+        readLog(logs);
+    })
+    .fail(function(){
+        console.log("Failed to Load: COUNT");
     });
+}
+
+function readLog(number)
+{
+    var file = "log/Log" + number + ".json";
     
-    achievements(data);
-    appendTable(data);
-    
-    /*$('#illegaltable').dynatable({
-        dataset:
+    $.getJSON(file, function(data){
+        console.log("Loaded: " + file);
+        document.getElementById("date").innerHTML = data.date;
+        document.getElementById("game_id").value = number;
+        
+        if(!initialised)
         {
-            records: data.error_Log
+            dynatable = $("#datatable").dynatable
+            ({
+                dataset: { records: data.players }
+            }).data("dynatable");
         }
-    });*/
-});
+        else
+        {
+            dynatable.settings.dataset.originalRecords = data.players;
+            dynatable.process();
+        }
+        
+        createPlayerSection(data);
+        
+        Morris.Line({
+            element: "linechart",
+            data: data.rounds,
+            xkey: "r",
+            ykeys: data.ykeys,
+            labels: data.labels,
+            ymax: 1,
+            ymin: 5,
+            smooth: false,
+            hideHover: true,
+            parseTime: false,
+            axes: true,
+            resize: true,
+            yLabelFormat: formatRole,
+            lineColors: linecolors
+        });
+        
+        setAchievements(data);
+        appendIllegalTable(data);
+        initialised = true;
+    })
+    .fail(function(){
+        console.log("Failed to Load: " + file);
+    });
+}
+
+function changeHistory()
+{
+    var value = document.getElementById("game_id").value;
+    console.log("Changing to: " + value);
+    cleanSite();
+    readLog(value);
+}
+
+function cleanSite()
+{
+    $("#playercolors").empty();
+    $("#linechart").empty();
+    $("#illegaltable tbody").remove();
+    $(document).ajaxStop(function() {});
+}
 
 function createPlayerSection(data)
 {
-    var section = document.getElementById("playercolors");
+    var players = document.getElementById("playercolors");
     
     for(var i = 0; i < data.labels.length; i++)
     {
@@ -71,11 +108,33 @@ function createPlayerSection(data)
         var node = document.createTextNode(data.labels[i]);
         para.appendChild(node);
         
-        section.appendChild(para);
+        players.appendChild(para);
     }
 }
 
-function achievements(data)
+function appendIllegalTable(data)
+{
+    var table = document.getElementById("illegaltable");
+    var tbody = table.appendChild(document.createElement("tbody"));
+    
+    for(var i = 0; i < data.error_Log.length; i++)
+    {
+        var tr = tbody.insertRow(i);
+        var c1 = tr.insertCell(0);
+        c1.innerHTML = data.error_Log[i].name;
+        
+        var c2 = tr.insertCell(1);
+        formatMove(c2, data.error_Log[i].move);
+        
+        var c3 = tr.insertCell(2);
+        formatMove(c3, data.error_Log[i].latest_Table);
+        
+        var c4 = tr.insertCell(3);
+        formatHand(c4, data.error_Log[i].hand_Cards);
+    }
+}
+
+function setAchievements(data)
 {
     var king = getHighest(data, "greater_Dalmuti");
     setAchievement("king_a", "king_count", king.name, king.value, king.index)
@@ -102,6 +161,14 @@ function achievements(data)
     {
         setAchievement("cheat_a", "cheat_count", cheat.name, cheat.value, cheat.index)
     }
+}
+
+function setAchievement(achievement, count, name, value, index)
+{
+    var ele = document.getElementById(achievement);
+    ele.innerHTML = name;
+    ele.style.backgroundColor = linecolors[index];
+    document.getElementById(count).innerHTML = value;
 }
 
 function getHighest(data, search)
@@ -140,14 +207,6 @@ function getLowest(data, search)
     }
 
     return { "name": nam, "value": val, "index": id };
-}
-
-function setAchievement(achievement, count, name, value, index)
-{
-    var ele = document.getElementById(achievement);
-    ele.innerHTML = name;
-    ele.style.backgroundColor = linecolors[index];
-    document.getElementById(count).innerHTML = value;
 }
 
 function formatNames(names)
@@ -192,26 +251,6 @@ function formatRole(data)
             break;
     }
     return role;
-}
-
-function appendTable(data)
-{
-    var table = document.getElementById("illegaltable");
-    for(var i = 0; i < data.error_Log.length; i++)
-    {
-        var tr = table.insertRow(i + 1);
-        var c1 = tr.insertCell(0);
-        c1.innerHTML = data.error_Log[i].name;
-        
-        var c2 = tr.insertCell(1);
-        formatMove(c2, data.error_Log[i].move);
-        
-        var c3 = tr.insertCell(2);
-        formatMove(c3, data.error_Log[i].latest_Table);
-        
-        var c4 = tr.insertCell(3);
-        formatHand(c4, data.error_Log[i].hand_Cards);
-    }
 }
 
 function formatMove(cell, move)

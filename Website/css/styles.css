@@ -40,6 +40,7 @@
     .achievements span { font-size: 20px; padding: 2px; color: black; }
     
     #build { margin-left: 10px; }
+    #game_change { margin-left: 10px; margin-bottom: 10px; }
     
 /* ---------------------------------------------------------
    Print styles
