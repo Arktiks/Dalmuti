@@ -10,6 +10,8 @@ Dalmuti-All
 *.goutputstream*
 .vscode/
 Bat/
+COUNTER
+COUNT_LOGS
 
 ### Windows ###
 # Windows image file caches
