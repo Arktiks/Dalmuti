@@ -401,7 +401,7 @@ GameState GameManager::GetState() const
     GameState state;
     state.table = table;
     state.discard = discard;
-    state.players = players;
+    state.players = GetSeatedPlayers();
     state.passes = passes;
     return state;
 }
