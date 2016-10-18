@@ -8,6 +8,7 @@ public:
     Monkey(std::string name);
     ~Monkey();
 
-    void Prepare();
-    Hand AskMove(GameState state);
+    void Prepare() override;
+    Hand AskMove(GameState state) override;
+    int GiveCard() override;
 };

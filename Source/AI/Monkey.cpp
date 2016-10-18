@@ -16,7 +16,6 @@ Monkey::~Monkey()
 
 void Monkey::Prepare()
 {
-    SortCards();
 }
 
 Hand Monkey::AskMove(GameState state)
@@ -68,4 +67,9 @@ Hand Monkey::AskMove(GameState state)
     }
 
     return Hand();
+}
+
+int Monkey::GiveCard()
+{
+    return CARDS::PASS;
 }

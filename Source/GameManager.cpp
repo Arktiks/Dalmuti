@@ -18,7 +18,7 @@ void GameManager::GameLoop()
 {
     if(AllFinished())
     {
-        DEBUG_INFO(("Game is over."));
+        DEBUG_INFO(("Round is over."));
         gameOver = true;
         return;
     }
@@ -43,6 +43,7 @@ void GameManager::GameLoop()
         DEBUG_INFO(("(%s)(%i) starts new round.", player->name.c_str(), player->id));
         DiscardTable();
         passes = 0;
+        deadlock++;
         move = player->AskMove(GetState());
     }
     else if(move.value == CARDS::PASS)
@@ -50,6 +51,7 @@ void GameManager::GameLoop()
         DEBUG_INFO(("(%s)(%i) passess.", player->name.c_str(), player->id));
         passes++;
         NextPlayer();
+        deadlock++;
         return;
     }
 
@@ -59,6 +61,7 @@ void GameManager::GameLoop()
         table = move;
         player->RemoveCard(move);
         passes = 0;
+        deadlock = 0;
         CheckFinished(player);
     }
     else
@@ -67,7 +70,11 @@ void GameManager::GameLoop()
         player->errors.push_back(FormatError(move, table, player));
         player->illegalMoves++;
         passes++;
+        deadlock++;
     }
+
+    if(deadlock > 50)
+        AbortRound();
 
     NextPlayer();
 }
@@ -83,9 +90,14 @@ void GameManager::Prepare()
     if(firstRound)
     {
         RandomSeating();
-        firstRound = false;
-        for(auto i : players)
-            i->illegalMoves = 0;
+        for(auto p : players)
+        {
+            p->role = ROLES::NO_ROLE;
+            p->roles.clear();
+            p->turnTimes.clear();
+            p->errors = json::array();
+            p->illegalMoves = 0;
+        }
     }
     else
     {
@@ -99,11 +111,26 @@ void GameManager::Prepare()
 
     gameOver = false;
     passes = 0;
-    table = Hand();
+    deadlock = 0;
+    table = EmptyHand();
     discard.clear();
 
+    //PrintPlayers();
+
+    if(!firstRound)
+    {
+        DalmutiPhase();
+        RankSeating();
+        //PrintPlayers();
+    }
+
     for(auto i : players)
+    {
+        i->SortCards();
         i->Prepare();
+    }
+
+    firstRound = false;
 }
 
 bool GameManager::IsGameOver() const
@@ -157,14 +184,12 @@ std::vector<int> GameManager::CreateDeck()
     return deck;
 }
 
-GameState GameManager::GetState() const
+void GameManager::AbortRound()
 {
-    GameState state;
-    state.table = table;
-    state.discard = discard;
-    state.players = players;
-    state.passes = passes;
-    return state;
+    DEBUG_INFO(("Round has entered deadlock; dividing remaining roles by random."));
+    RandomSeating();
+    for(auto p : players)
+        CheckFinished(p, true);
 }
 
 void GameManager::DealCards()
@@ -210,12 +235,12 @@ void GameManager::RandomSeating()
     std::random_shuffle(players.begin(), players.end());
 }
 
-void GameManager::PrintRoles() const
+void GameManager::RankSeating()
 {
-    //DEBUG_INFO(("Roles:"));
-    for(auto i : players)
-        printf("(%s)(%i): %i \n", i->name.c_str(), i->id, i->role);
-    printf("\n");
+    std::sort(players.begin(), players.end(), [](const Player* a, const Player* b)
+    {
+        return a->role < b->role;
+    });
 }
 
 void GameManager::NextPlayer()
@@ -235,7 +260,7 @@ void GameManager::DiscardTable()
     for(int i = 0; i < table.jesters; i++)
         discard.push_back(CARDS::JESTER);
 
-    table = Hand();
+    table = EmptyHand();
 }
 
 void GameManager::PlayerFinished(Player* player)
@@ -281,21 +306,129 @@ void GameManager::ClearCards()
         i->handCards.clear();
 }
 
-bool GameManager::LastInOrder()
+void GameManager::DalmutiPhase()
+{
+    Player* great_dalmuti = FindPlayer(ROLES::GREATER_DALMUTI);
+    Player* great_peon = FindPlayer(ROLES::GREATER_PEON);
+
+    for(int i = 0; i < 2; i++)
+    {
+        int card = great_peon->GiveLowest();
+        great_dalmuti->AddCard(card);
+        DEBUG_INFO(("Greater Peon (%s) gives (%i).", great_peon->name.c_str(), card));
+    }
+
+    Player* less_dalmuti = FindPlayer(ROLES::LESSER_DALMUTI);
+    Player* less_peon = nullptr;
+    if(less_dalmuti != nullptr)
+    {
+        less_peon = FindPlayer(ROLES::LESSER_PEON);
+        int card = less_peon->GiveLowest();
+        less_dalmuti->AddCard(card);
+        DEBUG_INFO(("Lesser Peon (%s) gives (%i).", less_peon->name.c_str(), card));
+
+        card = less_dalmuti->GiveCard();
+        if(less_dalmuti->HasCard(card))
+        {
+            less_peon->AddCard(card);
+            less_dalmuti->RemoveCard(card);
+        }
+        else
+        {
+            card = less_dalmuti->GiveHighest();
+            less_peon->AddCard(card);
+        }
+        DEBUG_INFO(("Lesser Dalmuti (%s) gives (%i).", less_dalmuti->name.c_str(), card));
+    }
+
+    for(int i = 0; i < 2; i++)
+    {
+        int card = great_dalmuti->GiveCard();
+        if(great_dalmuti->HasCard(card))
+        {
+            great_peon->AddCard(card);
+            great_dalmuti->RemoveCard(card);
+        }
+        else
+        {
+            card = great_dalmuti->GiveHighest();
+            great_peon->AddCard(card);
+        }
+        DEBUG_INFO(("Greater Dalmuti (%s) gives (%i).", great_dalmuti->name.c_str(), card));
+    }
+}
+
+Player* GameManager::FindPlayer(int role)
+{
+    for(auto p : players)
+    {
+        if(p->role == role)
+            return p;
+    }
+    return nullptr;
+}
+
+/////////////////////////////
+///    CONST FUNCTIONS    ///
+/////////////////////////////
+
+std::vector<AI> GameManager::GetSeatedPlayers() const
+{
+    std::vector<AI> seatedPlayers;
+    for(int i = 1; i < players.size(); i++)
+    {
+        AI ai;
+        ai.name = players[i]->name;
+        ai.role = players[i]->role;
+        ai.cardsInHand = players[i]->GetHandSize();
+        ai.toYourLeft = i;
+        ai.toYourRight = players.size() - i;
+    }
+    return seatedPlayers;
+}
+
+Hand GameManager::EmptyHand() const
+{
+    Hand hand;
+    hand.value = CARDS::PASS;
+    hand.amount = 0;
+    hand.jesters = 0;
+    return hand;
+}
+
+GameState GameManager::GetState() const
+{
+    GameState state;
+    state.table = table;
+    state.discard = discard;
+    state.players = players;
+    state.passes = passes;
+    return state;
+}
+
+void GameManager::PrintPlayers() const
+{
+    for(auto i : players)
+    {
+        i->PrintRole();
+        i->PrintCards();
+    }
+}
+
+bool GameManager::LastInOrder() const
 {
     if(passes >= (PlayersLeft() - 1))
         return true;
     return false;
 }
 
-bool GameManager::ConfirmHand(Hand move, Player* player)
+bool GameManager::ConfirmHand(const Hand& move, const Player* player) const
 {
     std::string name = player->name;
     int id = player->id;
 
     if(move.value == CARDS::PASS) // Pass is always valid move.
     {
-        //DEBUG_INFO(("(%s)(%i) passess.", name.c_str(), id));
         return false;
     }
     else if(move.amount > 12 || (move.amount + move.jesters) > 14) // Maximum amount of cards you can play in one hand is 14.
@@ -365,7 +498,7 @@ int GameManager::PlayersLeft() const
     return players.size();
 }
 
-nlohmann::json GameManager::FormatError(Hand move, Hand table, Player* player) const
+nlohmann::json GameManager::FormatError(const Hand& move, const Hand& table, const Player* player) const
 {
     json error;
     error["name"] = player->GetName();
@@ -375,7 +508,7 @@ nlohmann::json GameManager::FormatError(Hand move, Hand table, Player* player) c
     return error;
 }
 
-nlohmann::json GameManager::FormatHand(Hand move) const
+nlohmann::json GameManager::FormatHand(const Hand& move) const
 {
     json root;
     root["value"] = move.value;

@@ -37,12 +37,16 @@ int Player::GetRole() const
 
 void Player::Prepare()
 {
-    SortCards();
 }
 
 Hand Player::AskMove(GameState state)
 {
     return Hand();
+}
+
+int Player::GiveCard()
+{
+    return 0;
 }
 
 std::vector<int> Player::GetCards() const
@@ -102,6 +106,20 @@ int Player::GetJesterAmount() const
     return std::count(handCards.begin(), handCards.end(), CARDS::JESTER);
 }
 
+void Player::SetName(std::string name)
+{
+    if(!(this->name).empty())
+        return;
+
+    if(name.size() > 15)
+        name = "ERROR";
+    (this->name) = name;
+}
+
+///////////////////////
+//      PRIVATE     ///
+///////////////////////
+
 void Player::SortCards()
 {
     std::sort(handCards.begin(), handCards.end(),
@@ -111,16 +129,10 @@ void Player::SortCards()
     });
 }
 
-void Player::SetName(std::string name)
+void Player::PrintRole() const
 {
-    if(name.size() > 15)
-        name = "ERROR";
-    (this->name) = name;
+    printf("(%s)(%i): %i \n", name.c_str(), id, role);
 }
-
-///////////////////////
-//      PRIVATE     ///
-///////////////////////
 
 void Player::PrintCards() const
 {
@@ -156,4 +168,18 @@ void Player::RemoveCard(Hand hand)
 
     for(int i = 0; i < hand.jesters; i++)
         RemoveCard(CARDS::JESTER);
+}
+
+int Player::GiveLowest()
+{
+    int lowest = GetLowestCard();
+    RemoveCard(lowest);
+    return lowest;
+}
+
+int Player::GiveHighest()
+{
+    int highest = GetHighestCard();
+    RemoveCard(highest);
+    return highest;
 }

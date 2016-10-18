@@ -56,10 +56,10 @@ function readLog(number)
         
         Morris.Line({
             element: "linechart",
-            data: data.rounds,
+            data: data.linechart.rounds,
             xkey: "r",
-            ykeys: data.ykeys,
-            labels: data.labels,
+            ykeys: data.linechart.ykeys,
+            labels: data.linechart.labels,
             ymax: 1,
             ymin: 5,
             smooth: false,
@@ -100,12 +100,12 @@ function createPlayerSection(data)
 {
     var players = document.getElementById("playercolors");
     
-    for(var i = 0; i < data.labels.length; i++)
+    for(var i = 0; i < data.linechart.labels.length; i++)
     {
         var para = document.createElement("span");
         para.style.backgroundColor = linecolors[i];
         
-        var node = document.createTextNode(data.labels[i]);
+        var node = document.createTextNode(data.linechart.labels[i]);
         para.appendChild(node);
         
         players.appendChild(para);

@@ -8,6 +8,4 @@ struct Hand
     int value;
     int amount;
     int jesters;
-
-    Hand() : value(CARDS::PASS), amount(0), jesters(0) {};
 };

@@ -21,7 +21,6 @@ private:
 #endif // LOG_H
 #endif // _DEBUG
 
-
 #ifdef NDEBUG
 #define DEBUG_INFO
 #endif
