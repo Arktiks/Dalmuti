@@ -2,7 +2,7 @@ CC     = g++
 CFLAGS = -std=c++11
 DEBUG  ?= 0
 
-SOURCE       = Source/Main.cpp Source/Player.cpp Source/GameManager.cpp
+SOURCE       = Source/Main.cpp Source/Player.cpp Source/GameManager.cpp Source/Parser.cpp
 AI_SOURCE    = $(wildcard Source/AI/*.cpp)
 DEBUG_SOURCE = Source/Logging/Log.cpp Source/Logging/Memory.cpp
 

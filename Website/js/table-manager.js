@@ -114,23 +114,26 @@ function createPlayerSection(data)
 
 function appendIllegalTable(data)
 {
-    var table = document.getElementById("illegaltable");
-    var tbody = table.appendChild(document.createElement("tbody"));
-    
-    for(var i = 0; i < data.error_Log.length; i++)
+    if(data.error_Log != null)
     {
-        var tr = tbody.insertRow(i);
-        var c1 = tr.insertCell(0);
-        c1.innerHTML = data.error_Log[i].name;
-        
-        var c2 = tr.insertCell(1);
-        formatMove(c2, data.error_Log[i].move);
-        
-        var c3 = tr.insertCell(2);
-        formatMove(c3, data.error_Log[i].latest_Table);
-        
-        var c4 = tr.insertCell(3);
-        formatHand(c4, data.error_Log[i].hand_Cards);
+        var table = document.getElementById("illegaltable");
+        var tbody = table.appendChild(document.createElement("tbody"));
+    
+        for(var i = 0; i < data.error_Log.length; i++)
+        {
+            var tr = tbody.insertRow(i);
+            var c1 = tr.insertCell(0);
+            c1.innerHTML = data.error_Log[i].name;
+            
+            var c2 = tr.insertCell(1);
+            formatMove(c2, data.error_Log[i].move);
+            
+            var c3 = tr.insertCell(2);
+            formatMove(c3, data.error_Log[i].latest_Table);
+            
+            var c4 = tr.insertCell(3);
+            formatHand(c4, data.error_Log[i].hand_Cards);
+        }
     }
 }
 
@@ -152,7 +155,7 @@ function setAchievements(data)
     setAchievement("slow_a", "slow_count", slow.name, slow.value, slow.index)
     
     var cheat = getHighest(data, "illegal_Moves");
-    if(cheat.value <= 0)
+    if(cheat.value == null)
     {
         var ele = document.getElementById("cheat_text");
         ele.innerHTML = "Amazingly nobody was caught cheating during this game."
