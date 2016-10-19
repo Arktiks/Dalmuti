@@ -50,6 +50,7 @@ private:
     std::string name;
     int role;
     int id;
+    bool passed;
 
     /// STATISTICS ///
     std::vector<int> roles;

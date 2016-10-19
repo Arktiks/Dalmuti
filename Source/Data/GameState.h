@@ -8,7 +8,8 @@ class Player;
 struct GameState
 {
     Hand table;
-    std::vector<int> discard;
+    std::vector<int> played;
+    std::vector<Hand> stack;
     std::vector<AI> players;
     int passes;
 };

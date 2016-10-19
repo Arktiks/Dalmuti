@@ -40,6 +40,9 @@
     <ClCompile Include="Source\AI\k00pa.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\AI\Grim.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Data\Hand.h">
@@ -79,6 +82,9 @@
       <Filter>Source Files\Data</Filter>
     </ClInclude>
     <ClInclude Include="Source\AI\k00pa.h">
+      <Filter>Source Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AI\Grim.h">
       <Filter>Source Files\AI</Filter>
     </ClInclude>
   </ItemGroup>

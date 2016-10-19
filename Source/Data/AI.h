@@ -8,4 +8,5 @@ struct AI
     int cardsInHand;
     int toYourLeft;
     int toYourRight;
+    bool passed;
 };

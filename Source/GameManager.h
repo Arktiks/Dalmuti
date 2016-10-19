@@ -34,6 +34,8 @@ private:
     void AssignRole(Player* player);
     void ClearCards();
     void DalmutiPhase();
+    void SetPlayerPasses();
+    void SetTable(Hand move);
     Player* FindPlayer(int role);
 
     std::vector<AI> GetSeatedPlayers() const;
@@ -51,7 +53,8 @@ private:
 
     std::vector<Player*> players;
     std::vector<Player*> finished;
-    std::vector<int> discard;
+    std::vector<int> played;
+    std::vector<Hand> stack;
     std::vector<int> roles;
 
     Hand table;

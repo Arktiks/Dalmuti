@@ -35,33 +35,36 @@ void GameManager::GameLoop()
     auto start = std::chrono::high_resolution_clock::now();
     Hand move = player->AskMove(GetState()); 
     auto finish = std::chrono::high_resolution_clock::now();
-    player->turnTimes.push_back(
-        std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count());
-    
+    player->turnTimes.push_back(std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count());
+    move.player = player->name;
+
     if(move.value == CARDS::PASS && LastInOrder()) // If player passes and he is last player in order.
     {
         DEBUG_INFO(("(%s)(%i) starts new round.", player->name.c_str(), player->id));
         DiscardTable();
         passes = 0;
         deadlock++;
+        SetPlayerPasses();
         move = player->AskMove(GetState());
+        move.player = player->name;
     }
     else if(move.value == CARDS::PASS)
     {
         DEBUG_INFO(("(%s)(%i) passess.", player->name.c_str(), player->id));
-        passes++;
         NextPlayer();
+        player->passed = true;
+        passes++;
         deadlock++;
         return;
     }
 
     if(ConfirmHand(move, player))
     {
-        DiscardTable();
-        table = move;
+        SetTable(move);
         player->RemoveCard(move);
         passes = 0;
         deadlock = 0;
+        SetPlayerPasses();
         CheckFinished(player);
     }
     else
@@ -108,15 +111,16 @@ void GameManager::Prepare()
     PrepareRoles();
     ClearCards();
     DealCards();
+    SetPlayerPasses();
 
     gameOver = false;
     passes = 0;
     deadlock = 0;
     table = EmptyHand();
-    discard.clear();
+    played.clear();
+    stack.clear();
 
     //PrintPlayers();
-
     if(!firstRound)
     {
         DalmutiPhase();
@@ -254,12 +258,6 @@ void GameManager::NextPlayer()
 
 void GameManager::DiscardTable()
 {
-    for(int i = 0; i < table.amount; i++)
-        discard.push_back(table.value);
-
-    for(int i = 0; i < table.jesters; i++)
-        discard.push_back(CARDS::JESTER);
-
     table = EmptyHand();
 }
 
@@ -358,6 +356,25 @@ void GameManager::DalmutiPhase()
     }
 }
 
+void GameManager::SetPlayerPasses()
+{
+    for(auto p : players)
+        p->passed = false;
+}
+
+void GameManager::SetTable(Hand move)
+{
+    table = move;
+
+    for(int i = 0; i < move.amount; i++)
+        played.push_back(move.value);
+
+    for(int i = 0; i < move.jesters; i++)
+        played.push_back(CARDS::JESTER);
+
+    stack.push_back(move);
+}
+
 Player* GameManager::FindPlayer(int role)
 {
     for(auto p : players)
@@ -383,6 +400,7 @@ std::vector<AI> GameManager::GetSeatedPlayers() const
         ai.cardsInHand = players[i]->GetHandSize();
         ai.toYourLeft = i;
         ai.toYourRight = players.size() - i;
+        ai.passed = players[i]->passed;
     }
     return seatedPlayers;
 }
@@ -400,7 +418,7 @@ GameState GameManager::GetState() const
 {
     GameState state;
     state.table = table;
-    state.discard = discard;
+    state.played = played;
     state.players = GetSeatedPlayers();
     state.passes = passes;
     return state;
