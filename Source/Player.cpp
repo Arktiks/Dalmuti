@@ -76,7 +76,13 @@ bool Player::HasCard(Hand hand) const
 
 int Player::CountCard(int value) const
 {
-    return std::count(handCards.begin(), handCards.end(), value);
+    if(value > -1 && value < 14)
+        return std::count(handCards.begin(), handCards.end(), value);
+    else
+    {
+        DEBUG_INFO(("CountCard() invalid value: %i", value));
+        return 0;
+    }
 }
 
 int Player::GetHighestCard() const

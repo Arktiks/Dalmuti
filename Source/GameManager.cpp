@@ -192,8 +192,8 @@ void GameManager::AbortRound()
 {
     DEBUG_INFO(("Round has entered deadlock; dividing remaining roles by random."));
     RandomSeating();
-    for(auto p : players)
-        CheckFinished(p, true);
+    for(int i = 0; i < players.size(); i++)
+        CheckFinished(players[0], true);
 }
 
 void GameManager::DealCards()
@@ -401,6 +401,7 @@ std::vector<AI> GameManager::GetSeatedPlayers() const
         ai.toYourLeft = i;
         ai.toYourRight = players.size() - i;
         ai.passed = players[i]->passed;
+        seatedPlayers.push_back(ai);
     }
     return seatedPlayers;
 }
